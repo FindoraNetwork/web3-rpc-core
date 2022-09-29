@@ -19,7 +19,7 @@
 //! Eth filter rpc interface.
 
 use ethereum_types::U256;
-use jsonrpc_core::Result;
+use jsonrpc_core::{BoxFuture, Result};
 use jsonrpc_derive::rpc;
 
 use crate::types::{Filter, FilterChanges, Index, Log};
@@ -29,25 +29,25 @@ use crate::types::{Filter, FilterChanges, Index, Log};
 pub trait EthFilterApi {
     /// Returns id of new filter.
     #[rpc(name = "eth_newFilter")]
-    fn new_filter(&self, _: Filter) -> Result<U256>;
+    fn new_filter(&self, _: Filter) -> BoxFuture<Result<U256>>;
 
     /// Returns id of new block filter.
     #[rpc(name = "eth_newBlockFilter")]
-    fn new_block_filter(&self) -> Result<U256>;
+    fn new_block_filter(&self) -> BoxFuture<Result<U256>>;
 
     /// Returns id of new block filter.
     #[rpc(name = "eth_newPendingTransactionFilter")]
-    fn new_pending_transaction_filter(&self) -> Result<U256>;
+    fn new_pending_transaction_filter(&self) -> BoxFuture<Result<U256>>;
 
     /// Returns filter changes since last poll.
     #[rpc(name = "eth_getFilterChanges")]
-    fn filter_changes(&self, _: Index) -> Result<FilterChanges>;
+    fn filter_changes(&self, _: Index) -> BoxFuture<Result<FilterChanges>>;
 
     /// Returns all logs matching given filter (in a range 'from' - 'to').
     #[rpc(name = "eth_getFilterLogs")]
-    fn filter_logs(&self, _: Index) -> Result<Vec<Log>>;
+    fn filter_logs(&self, _: Index) -> BoxFuture<Result<Vec<Log>>>;
 
     /// Uninstalls filter.
     #[rpc(name = "eth_uninstallFilter")]
-    fn uninstall_filter(&self, _: Index) -> Result<bool>;
+    fn uninstall_filter(&self, _: Index) -> BoxFuture<Result<bool>>;
 }
