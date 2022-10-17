@@ -18,7 +18,7 @@
 
 //! Eth PUB-SUB rpc interface.
 
-use jsonrpc_core::Result;
+use jsonrpc_core::{BoxFuture, Result};
 use jsonrpc_derive::rpc;
 use jsonrpc_pubsub::{typed, SubscriptionId};
 
@@ -46,5 +46,5 @@ pub trait EthPubSubApi {
         unsubscribe,
         name = "eth_unsubscribe"
     )]
-    fn unsubscribe(&self, _: Option<Self::Metadata>, _: SubscriptionId) -> Result<bool>;
+    fn unsubscribe(&self, _: Option<Self::Metadata>, _: SubscriptionId) -> BoxFuture<Result<bool>>;
 }
